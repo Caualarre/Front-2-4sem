@@ -1,0 +1,165 @@
+/* index.css */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f9;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  background-color: #4CAF50;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.main {
+  flex: 1;
+  padding: 20px;
+  text-align: center;
+}
+
+.vtuber-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.vtuber-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  padding: 20px;
+  text-align: center;
+}
+
+.vtuber-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.vtuber-rating {
+  margin-top: 10px;
+}
+
+.forms-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.search-form input, .filter-form select {
+  padding: 5px;
+  font-size: 16px;
+}
+
+button {
+  padding: 5px 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.footer {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+/* index.css */
+header {
+  background-color: #282c34;
+  padding: 20px;
+  text-align: center;
+}
+
+header h1 {
+  color: white;
+  font-size: 2rem;
+}
+/* index.css */
+footer {
+  background-color: #282c34;
+  padding: 10px;
+  text-align: center;
+  color: white;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+/* index.css */
+.search-filter-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.search-form,
+.filter-form {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+}
+
+.search-form input,
+.filter-form select {
+  padding: 8px;
+  margin: 5px 0;
+}
+
+button {
+  padding: 8px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+/* index.css */
+.vtuber-card {
+  background-color: #f4f4f4;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.vtuber-card img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.vtuber-card h3 {
+  color: #333;
+}
+
+.vtuber-card p {
+  color: #666;
+}
+
+.vtuber-rating {
+  margin-top: 10px;
+  color: #444;
+}
