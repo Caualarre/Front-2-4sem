@@ -1,7 +1,9 @@
-import React, { useState } from "react"; 
+import React, { useState } from "react";
+import { useTarefaContext } from "../contexts/TarefaContexto";
 
-function FormularioTarefa({ adicionarTarefa }) {
+function FormularioTarefa() {
   const [novoNomeTarefa, setNovoNomeTarefa] = useState("");
+  const { adicionarTarefa } = useTarefaContext();
 
   const handleAddTask = () => {
     if (novoNomeTarefa.trim()) {

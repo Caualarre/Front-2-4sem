@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Passo from "./Etapa";
+import { useTarefaContext } from "../contexts/TarefaContexto";
 
-function Tarefa({ tarefa, adicionarPasso, removerTarefa, alternarPassoConcluido, removerPasso }) {
+function Tarefa({ tarefa }) {
   const [novoNomePasso, setNovoNomePasso] = useState("");
+  const { removerTarefa, adicionarPasso, removerPasso, alternarPassoConcluido } = useTarefaContext();
 
   const handleAddStep = () => {
     if (novoNomePasso.trim()) {
@@ -13,7 +15,7 @@ function Tarefa({ tarefa, adicionarPasso, removerTarefa, alternarPassoConcluido,
 
   return (
     <div className="tarefa">
-      <h2 style={{ textDecoration: tarefa.concluido ? "line-through" : "none" }}>{tarefa.nome}</h2>
+      <h2 style={{ textDecoration: tarefa.concluida ? "line-through" : "none" }}>{tarefa.nome}</h2>
       <button onClick={() => removerTarefa(tarefa.id)}>Remover Tarefa</button>
       <div className="step-form">
         <input

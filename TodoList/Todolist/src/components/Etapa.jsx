@@ -15,7 +15,7 @@ function Passo({ passo, idTarefa, alternarPassoConcluido, removerPasso }) {
           onChange={() => alternarPassoConcluido(idTarefa, passo.id)}
         />
         {passo.nome}
-      </label>s
+      </label>
       <button onClick={() => removerPasso(idTarefa, passo.id)} style={{ marginLeft: "10px" }}>
         Remover Passo
       </button>
