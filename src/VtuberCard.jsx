@@ -1,23 +1,28 @@
-// src/VtuberCard.jsx
 import React from 'react';
+import styled from 'styled-components';
 
-function VtuberCard({ vtuber }) {
-  return (
-    <div className="vtuber-card">
-      <img
-        src={`assets/images/${vtuber.imagem}`}
-        alt={vtuber.nome}
-        className="vtuber-image"
-      />
-      <h3>{vtuber.nome}</h3>
-      <p>{vtuber.descricao}</p>
-      <p>Empresa: {vtuber.empresa}</p>
-      <div className="vtuber-rating">
-        <p>Média: {vtuber.media_notas}</p>
-        <p>Total de Avaliações: {vtuber.total_avaliacoes}</p>
-      </div>
-    </div>
-  );
-}
+const Card = styled.div`
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 8px;
+`;
+
+const Image = styled.img`
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+`;
+
+const VtuberCard = ({ vtuber }) => (
+  <Card>
+    <Image src={`assets/images/${vtuber.imagem}`} alt={vtuber.nome} />
+    <h3>{vtuber.nome}</h3>
+    <p>{vtuber.descricao}</p>
+    <p>Empresa: {vtuber.empresa}</p>
+    <p>Média: {vtuber.media_notas}</p>
+    <p>Total de Avaliações: {vtuber.total_avaliacoes}</p>
+  </Card>
+);
 
 export default VtuberCard;

@@ -1,9 +1,23 @@
-// src/App.jsx
 import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import SearchAndFilterForm from './SearchAndFilterForm';
 import VtuberCard from './VtuberCard';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+`;
+
+const Main = styled.main`
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const vtubers = [
   {
@@ -13,7 +27,7 @@ const vtubers = [
     imagem: 'Oni.png',
     empresa: 'Independente',
     media_notas: 4.5,
-    total_avaliacoes: 120
+    total_avaliacoes: 120,
   },
   {
     codvtuber: 2,
@@ -22,7 +36,7 @@ const vtubers = [
     imagem: 'gawr-gura.jpg',
     empresa: 'Hololive',
     media_notas: 4.8,
-    total_avaliacoes: 200
+    total_avaliacoes: 200,
   },
   {
     codvtuber: 3,
@@ -31,24 +45,24 @@ const vtubers = [
     imagem: 'VTUBER.webp',
     empresa: 'Independente',
     media_notas: 4.7,
-    total_avaliacoes: 150
+    total_avaliacoes: 150,
   },
   {
     codvtuber: 4,
     nome: 'Pikamee',
     descricao: 'VTuber japonesa com personalidade engraçada e muito carismática.',
     imagem: 'Sangue.jpg',
-    empresa: 'Independent',
+    empresa: 'Independente',
     media_notas: 4.6,
-    total_avaliacoes: 180
-  }
+    total_avaliacoes: 180,
+  },
 ];
 
 function App() {
   return (
-    <div className="container">
+    <Container>
       <Header />
-      <main className="main">
+      <Main>
         <h1>Lista de VTubers</h1>
         <SearchAndFilterForm />
         <div className="vtuber-list">
@@ -56,9 +70,9 @@ function App() {
             <VtuberCard key={vtuber.codvtuber} vtuber={vtuber} />
           ))}
         </div>
-      </main>
+      </Main>
       <Footer />
-    </div>
+    </Container>
   );
 }
 
