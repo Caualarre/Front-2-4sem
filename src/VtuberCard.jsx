@@ -16,7 +16,7 @@ const Image = styled.img`
 
 const VtuberCard = ({ vtuber }) => (
   <Card>
-    <Image src={`assets/images/${vtuber.imagem}`} alt={vtuber.nome} />
+    <Image src={`/images/${vtuber.imagem}`} alt={vtuber.nome} />
     <h3>{vtuber.nome}</h3>
     <p>{vtuber.descricao}</p>
     <p>Empresa: {vtuber.empresa}</p>
