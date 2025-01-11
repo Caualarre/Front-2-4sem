@@ -51,7 +51,7 @@ const vtubers = [
     codvtuber: 4,
     nome: 'Pikamee',
     descricao: 'VTuber japonesa com personalidade engraçada e muito carismática.',
-    imagem: 'Sangue.jpg',
+    imagem: 'Sangue.png',
     empresa: 'Independente',
     media_notas: 4.6,
     total_avaliacoes: 180,
