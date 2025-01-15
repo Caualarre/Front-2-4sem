@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+//import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const FormContainer = styled.div`
@@ -32,16 +33,47 @@ const Button = styled.button`
   }
 `;
 
-function SearchAndFilterForm() {
+
+const SearchAndFilterForm = ({ onSearch }) => {
+  const [nome, setNome] = useState('');
+  const [empresaId, setEmpresaId] = useState('');
+  const [media, setMedia] = useState('');
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const filters = {};
+
+    if (nome) filters.nome = nome;
+    if (empresaId) filters.empresa_id = empresaId;
+    if (media) filters.media = media;
+
+    onSearch(filters); // Passa os filtros para a função onSearch do App.jsx
+  };
+
   return (
-    <FormContainer>
-      <Form>
-        <label htmlFor="nome">Pesquisar:</label>
-        <Input type="text" id="nome" placeholder="Digite o nome" />
-        <Button type="submit">Pesquisar</Button>
-      </Form>
-    </FormContainer>
+    <form onSubmit={handleSearch}>
+      <input
+        type="text"
+        placeholder="Nome"
+        value={nome}
+        onChange={(e) => setNome(e.target.value)}
+      />
+      <input
+        type="text"
+        placeholder="ID da Empresa"
+        value={empresaId}
+        onChange={(e) => setEmpresaId(e.target.value)}
+      />
+      <input
+        type="number"
+        placeholder="Média"
+        value={media}
+        onChange={(e) => setMedia(e.target.value)}
+      />
+      <button type="submit">Buscar</button>
+    </form>
   );
-}
+};
 
 export default SearchAndFilterForm;
+

@@ -1,79 +1,103 @@
-import React from 'react';
-import Header from './Header';
-import Footer from './Footer';
-import SearchAndFilterForm from './SearchAndFilterForm';
-import VtuberCard from './VtuberCard';
-import styled from 'styled-components';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Header from "./Header";
+import Footer from "./Footer";
+import SearchAndFilterForm from "./SearchAndFilterForm";
+import VtuberCard from "./VtuberCard";
+import "./index.css";
+import api from "./services/api";
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-`;
+const App = () => {
+  const [vtubers, setVtubers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Hook para navegação
 
-const Main = styled.main`
-  flex: 1;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+  // Função para buscar os VTubers com filtros
+  const fetchVtubers = async (filters = {}) => {
+    try {
+      setLoading(true);
+      const params = new URLSearchParams(filters).toString();
+      const url = params ? `/vtubers-filtro?${params}` : "/vtubers-filtro";
+      const response = await api.get(url);
+      setVtubers(response.data);
+    } catch (err) {
+      console.error("Erro ao buscar VTubers:", err);
+      setError("Não foi possível carregar os VTubers.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-const vtubers = [
-  {
-    codvtuber: 1,
-    nome: 'Kizuna AI',
-    descricao: 'Uma das primeiras VTubers. Famosa por sua energia positiva e interatividade.',
-    imagem: 'Oni.png',
-    empresa: 'Independente',
-    media_notas: 4.5,
-    total_avaliacoes: 120,
-  },
-  {
-    codvtuber: 2,
-    nome: 'Gawr Gura',
-    descricao: 'A famosa tubarão da Hololive. Conhecida por suas piadas e boas risadas.',
-    imagem: 'gawr-gura.jpg',
-    empresa: 'Hololive',
-    media_notas: 4.8,
-    total_avaliacoes: 200,
-  },
-  {
-    codvtuber: 3,
-    nome: 'Shiro',
-    descricao: 'A VTuber de uma personalidade tranquila e relaxante.',
-    imagem: 'VTUBER.webp',
-    empresa: 'Independente',
-    media_notas: 4.7,
-    total_avaliacoes: 150,
-  },
-  {
-    codvtuber: 4,
-    nome: 'Pikamee',
-    descricao: 'VTuber japonesa com personalidade engraçada e muito carismática.',
-    imagem: 'Sangue.png',
-    empresa: 'Independente',
-    media_notas: 4.6,
-    total_avaliacoes: 180,
-  },
-];
+  useEffect(() => {
+    fetchVtubers();
+  }, []);
 
-function App() {
+  // Função para navegar até a página de criação de VTuber
+  const navigateToCreateVtuber = () => {
+    navigate("/create-vtuber");
+  };
+
+// Função de logout
+const handleLogout = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      throw new Error("Token não encontrado. Usuário não está autenticado.");
+    }
+
+    await api.post("/logout", null, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Adiciona o token no cabeçalho
+      },
+    });
+
+    localStorage.removeItem("token"); // Remove o token do localStorage
+    navigate("/"); 
+  } catch (error) {
+    console.error(
+      "Erro ao realizar logout:",
+      error.response ? error.response.data : error.message
+    );
+  }
+};
+
+
   return (
-    <Container>
+    <div className="App">
       <Header />
-      <Main>
-        <h1>Lista de VTubers</h1>
-        <SearchAndFilterForm />
-        <div className="vtuber-list">
-          {vtubers.map((vtuber) => (
-            <VtuberCard key={vtuber.codvtuber} vtuber={vtuber} />
-          ))}
-        </div>
-      </Main>
+
+      {/* Botão de logout */}
+      <button onClick={handleLogout}>Logout</button>
+
+      {/* Botão para criar VTuber */}
+      <button onClick={navigateToCreateVtuber}>Criar VTuber</button>
+
+      <SearchAndFilterForm onSearch={fetchVtubers} />
+
+      <div className="vtuber-list">
+        {loading ? (
+          <p>Carregando VTubers...</p>
+        ) : error ? (
+          <p>{error}</p>
+        ) : vtubers.length > 0 ? (
+          vtubers.map((vtuber) => (
+            <div
+              key={vtuber.id}
+              onClick={() => navigate(`/vtubers/${vtuber.id}`)}
+            >
+              <VtuberCard vtuber={vtuber} />
+            </div>
+          ))
+        ) : (
+          <p>Nenhum VTuber encontrado.</p>
+        )}
+      </div>
+
       <Footer />
-    </Container>
+    </div>
   );
-}
+};
 
 export default App;

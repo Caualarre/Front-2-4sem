@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom'; // Importando o Link para navegação
 
 const Card = styled.div`
   background-color: #f9f9f9;
@@ -16,12 +17,11 @@ const Image = styled.img`
 
 const VtuberCard = ({ vtuber }) => (
   <Card>
-    <Image src={`/images/${vtuber.imagem}`} alt={vtuber.nome} />
+    <Image src={vtuber.imagem} alt={vtuber.nome} />
     <h3>{vtuber.nome}</h3>
     <p>{vtuber.descricao}</p>
-    <p>Empresa: {vtuber.empresa}</p>
-    <p>Média: {vtuber.media_notas}</p>
-    <p>Total de Avaliações: {vtuber.total_avaliacoes}</p>
+    <p>Empresa: {vtuber.empresa_id}</p>
+    <p>Média: {vtuber.media_nota}</p>
   </Card>
 );
 
