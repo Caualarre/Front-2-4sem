@@ -33,47 +33,54 @@ const App = () => {
     fetchVtubers();
   }, []);
 
-  // Função para navegar até a página de criação de VTuber
   const navigateToCreateVtuber = () => {
     navigate("/create-vtuber");
   };
 
-// Função de logout
-const handleLogout = async () => {
-  try {
-    const token = localStorage.getItem("token");
+  
+  const navigateToUserList = () => {
+    navigate("/users");
+  };
+  const navigateToEmpresaList = () => {
+    navigate("/empresas");
+  };
 
-    if (!token) {
-      throw new Error("Token não encontrado. Usuário não está autenticado.");
+
+  const handleLogout = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        throw new Error("Token não encontrado. Usuário não está autenticado.");
+      }
+
+      await api.post("/logout", null, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Adiciona o token no cabeçalho
+        },
+      });
+
+      localStorage.removeItem("token"); // Remove o token do localStorage
+      navigate("/");
+    } catch (error) {
+      console.error(
+        "Erro ao realizar logout:",
+        error.response ? error.response.data : error.message
+      );
     }
-
-    await api.post("/logout", null, {
-      headers: {
-        Authorization: `Bearer ${token}`, // Adiciona o token no cabeçalho
-      },
-    });
-
-    localStorage.removeItem("token"); // Remove o token do localStorage
-    navigate("/"); 
-  } catch (error) {
-    console.error(
-      "Erro ao realizar logout:",
-      error.response ? error.response.data : error.message
-    );
-  }
-};
-
+  };
 
   return (
     <div className="App">
       <Header />
 
-      {/* Botão de logout */}
       <button onClick={handleLogout}>Logout</button>
 
-      {/* Botão para criar VTuber */}
       <button onClick={navigateToCreateVtuber}>Criar VTuber</button>
 
+      <button onClick={navigateToUserList}>Listar Usuários</button>
+
+      <button onClick={navigateToEmpresaList}>Listar Empresa</button>
       <SearchAndFilterForm onSearch={fetchVtubers} />
 
       <div className="vtuber-list">

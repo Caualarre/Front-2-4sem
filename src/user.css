@@ -1,0 +1,32 @@
+.user-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+  }
+  
+  .user-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 8px;
+    width: 300px;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .user-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .user-card h3 {
+    margin: 0 0 8px;
+    font-size: 1.25rem;
+    color: #333;
+  }
+  
+  .user-card p {
+    margin: 4px 0;
+    color: #555;
+  }
+  

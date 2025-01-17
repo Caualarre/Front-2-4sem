@@ -4,7 +4,7 @@ import api from './services/api';
 
 const VtuberDetails = () => {
   const { id } = useParams();  // Pegando o ID da URL
-  const navigate = useNavigate(); // Para redirecionar após a exclusão
+  const navigate = useNavigate(); // Para redirecionar
   const [vtuber, setVtuber] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -50,9 +50,45 @@ const VtuberDetails = () => {
       <p><strong>Empresa:</strong> {vtuber.empresa_id}</p>
       <p><strong>Média de Notas:</strong> {vtuber.media_nota}</p>
 
-      {/* Botão de excluir */}
-      <button onClick={handleDelete} style={{ backgroundColor: 'red', color: 'white', padding: '10px', border: 'none', cursor: 'pointer' }}>
+      <button 
+        onClick={() => navigate(`/update-vtuber/${id}`)} 
+        style={{
+          backgroundColor: 'blue', 
+          color: 'white', 
+          padding: '10px', 
+          border: 'none', 
+          cursor: 'pointer', 
+          marginRight: '10px',
+        }}
+      >
+        Editar VTuber
+      </button>
+
+      <button 
+        onClick={handleDelete} 
+        style={{
+          backgroundColor: 'red', 
+          color: 'white', 
+          padding: '10px', 
+          border: 'none', 
+          cursor: 'pointer',
+        }}
+      >
+        
         Excluir VTuber
+      </button>
+      <button 
+        onClick={() => navigate(`/app`)} 
+        style={{
+          backgroundColor: 'blue', 
+          color: 'white', 
+          padding: '10px', 
+          border: 'none', 
+          cursor: 'pointer', 
+          marginRight: '10px',
+        }}
+      >
+        Voltar ao Inicio
       </button>
     </div>
   );
