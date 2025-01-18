@@ -7,6 +7,8 @@ const UpdateVtuber = () => {
   const navigate = useNavigate(); // Para redirecionar após a atualização
   const [nome, setNome] = useState('');
   const [descricao, setDescricao] = useState('');
+  const [imagem, setImagem] = useState(null); 
+  const [imagemPreview, setImagemPreview] = useState(null); // Para mostrar a imagem atual ou nova
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(true);
 
@@ -17,6 +19,9 @@ const UpdateVtuber = () => {
         const response = await api.get(`/vtubers/${id}`);
         setNome(response.data.nome);
         setDescricao(response.data.descricao);
+        if (response.data.imagem) {
+          setImagemPreview(response.data.imagem); 
+        }
       } catch (error) {
         console.error('Erro ao carregar VTuber:', error);
         setMessage('Erro ao carregar VTuber.');
@@ -28,13 +33,22 @@ const UpdateVtuber = () => {
     fetchVtuberDetails();
   }, [id]);
 
+  const handleImagemChange = (e) => {
+    const file = e.target.files[0];
+    setImagem(file);
+    setImagemPreview(URL.createObjectURL(file)); // Atualiza a pré-visualização da imagem
+  };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
     formData.append('nome', nome);
     formData.append('descricao', descricao);
-    formData.append('_method', 'put');
+    if (imagem) {
+      formData.append('imagem', imagem); // Adiciona a imagem ao FormData
+    }
+    formData.append('_method', 'put'); // Envia o método PUT para atualizar
 
     try {
       const response = await api.post(`/vtubers/${id}`, formData, {
@@ -44,7 +58,7 @@ const UpdateVtuber = () => {
       });
       setMessage('VTuber atualizado com sucesso!');
       console.log('Resposta do servidor:', response.data);
-      navigate(`/vtubers/${id}`); 
+      navigate(`/vtubers/${id}`);
     } catch (error) {
       setMessage('Erro ao atualizar VTuber.');
       console.error('Erro ao atualizar VTuber:', error);
@@ -52,43 +66,57 @@ const UpdateVtuber = () => {
   };
 
   const handleBack = () => {
-    navigate(`/vtubers/${id}`); 
+    navigate(`/vtubers/${id}`);
   };
 
   const handleBackTotal = () => {
-    navigate(`/app`); 
+    navigate(`/app`);
   };
 
-  if (loading) return <p>Carregando dados...</p>;
+  if (loading) {
+    return <div>Carregando dados...</div>;
+  }
 
   return (
-    <div className="container">
-      <h2>Atualizar VTuber</h2>
-      <form onSubmit={handleFormSubmit} encType="multipart/form-data">
-        <label htmlFor="nome">Nome do VTuber:</label>
-        <input
-          type="text"
-          id="nome"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-          required
-        />
-
-        <label htmlFor="descricao">Descrição:</label>
-        <textarea
-          id="descricao"
-          value={descricao}
-          onChange={(e) => setDescricao(e.target.value)}
-          required
-        ></textarea>
-
-        <button type="submit">Atualizar</button>
+    <div className="update-vtuber-container">
+      <h1>Atualizar VTuber</h1>
+      <form onSubmit={handleFormSubmit} className="update-vtuber-form">
+        <div className="form-group">
+          <label htmlFor="nome">Nome do VTuber:</label>
+          <input
+            type="text"
+            id="nome"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="descricao">Descrição:</label>
+          <textarea
+            id="descricao"
+            value={descricao}
+            onChange={(e) => setDescricao(e.target.value)}
+            required
+          ></textarea>
+        </div>
+        <div className="form-group">
+          <label htmlFor="imagem">Imagem:</label>
+          <input type="file" id="imagem" onChange={handleImagemChange} />
+        </div>
+        {imagemPreview && (
+          <div className="image-preview">
+            <p>Pré-visualização:</p>
+            <img src={imagemPreview} alt="Preview" className="preview-image" />
+          </div>
+        )}
+        <button type="submit" className="btn-submit">Atualizar</button>
       </form>
-
-      {message && <div id="message">{message}</div>}
-
-      <button id="backBtn" onClick={handleBack}>Voltar</button>
-      <button id="backBtn" onClick={handleBackTotal}>Voltar Ao Início</button>
+      {message && <div className="message">{message}</div>}
+      <div className="navigation-buttons">
+        <button onClick={handleBack} className="btn-back">Voltar</button>
+        <button onClick={handleBackTotal} className="btn-home">Voltar Ao Início</button>
+      </div>
     </div>
   );
 };
