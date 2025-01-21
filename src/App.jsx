@@ -37,14 +37,12 @@ const App = () => {
     navigate("/create-vtuber");
   };
 
-  
   const navigateToUserList = () => {
     navigate("/users");
   };
   const navigateToEmpresaList = () => {
     navigate("/empresas");
   };
-
 
   const handleLogout = async () => {
     try {

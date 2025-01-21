@@ -1,0 +1,60 @@
+
+.vtuber-details-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  .vtuber-details-container h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #333;
+  }
+  
+  .vtuber-details-container img {
+    display: block;
+    margin: 20px auto;
+    max-width: 100%;
+    border-radius: 8px;
+  }
+  
+  .vtuber-details-container p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #555;
+    margin: 10px 0;
+  }
+  
+  .vtuber-details-container button {
+    padding: 12px 20px;
+    margin: 10px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .vtuber-details-container button:hover {
+    opacity: 0.8;
+  }
+  
+  .vtuber-details-container .edit-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+  }
+  
+  .vtuber-details-container .delete-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+  }
+  
+  .vtuber-details-container .back-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+  }
+  

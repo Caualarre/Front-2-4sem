@@ -7,11 +7,15 @@ const Card = styled.div`
   border: 1px solid #ccc;
   padding: 1rem;
   border-radius: 8px;
+  width: 300px; /* Tamanho fixo para o cartão */
+  height: 400px; /* Tamanho fixo para o cartão */
+  text-align: center;
 `;
 
 const Image = styled.img`
-  width: 100%;
-  height: auto;
+  width: 200px; /* Tamanho fixo para a imagem */
+  height: 200px; /* Tamanho fixo para a imagem */
+  object-fit: cover;
   border-radius: 8px;
 `;
 

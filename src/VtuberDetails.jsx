@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; 
-import api from './services/api'; 
+import api from './services/api';
+import Header from './Header';
+import Footer from './Footer';
+import './VtuberDetails.css'; // Importando o CSS
 
 const VtuberDetails = () => {
   const { id } = useParams();  // Pegando o ID da URL
@@ -44,52 +47,36 @@ const VtuberDetails = () => {
 
   return (
     <div>
-      <h2>{vtuber.nome}</h2>
-      <img src={vtuber.imagem} alt={vtuber.nome} style={{ width: '300px', height: 'auto' }} />
-      <p><strong>Descrição:</strong> {vtuber.descricao}</p>
-      <p><strong>Empresa:</strong> {vtuber.empresa_id}</p>
-      <p><strong>Média de Notas:</strong> {vtuber.media_nota}</p>
+      <Header />
+      <div className="vtuber-details-container">
+        <h2>{vtuber.nome}</h2>
+        <img src={vtuber.imagem} alt={vtuber.nome} />
+        <p><strong>Descrição:</strong> {vtuber.descricao}</p>
+        <p><strong>Empresa:</strong> {vtuber.empresa_id}</p>
+        <p><strong>Média de Notas:</strong> {vtuber.media_nota}</p>
 
-      <button 
-        onClick={() => navigate(`/update-vtuber/${id}`)} 
-        style={{
-          backgroundColor: 'blue', 
-          color: 'white', 
-          padding: '10px', 
-          border: 'none', 
-          cursor: 'pointer', 
-          marginRight: '10px',
-        }}
-      >
-        Editar VTuber
-      </button>
+        <button 
+          onClick={() => navigate(`/update-vtuber/${id}`)} 
+          className="edit-button"
+        >
+          Editar VTuber
+        </button>
 
-      <button 
-        onClick={handleDelete} 
-        style={{
-          backgroundColor: 'red', 
-          color: 'white', 
-          padding: '10px', 
-          border: 'none', 
-          cursor: 'pointer',
-        }}
-      >
-        
-        Excluir VTuber
-      </button>
-      <button 
-        onClick={() => navigate(`/app`)} 
-        style={{
-          backgroundColor: 'blue', 
-          color: 'white', 
-          padding: '10px', 
-          border: 'none', 
-          cursor: 'pointer', 
-          marginRight: '10px',
-        }}
-      >
-        Voltar ao Inicio
-      </button>
+        <button 
+          onClick={handleDelete} 
+          className="delete-button"
+        >
+          Excluir VTuber
+        </button>
+
+        <button 
+          onClick={() => navigate(`/app`)} 
+          className="back-button"
+        >
+          Voltar ao Início
+        </button>
+      </div>
+      <Footer />
     </div>
   );
 };
