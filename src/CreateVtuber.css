@@ -1,0 +1,72 @@
+/* Container principal da página de criação */
+.create-vtuber-container {
+    margin: 0 auto;
+    max-width: 600px;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .create-vtuber-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .create-vtuber-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .create-vtuber-container label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #444;
+  }
+  
+  .create-vtuber-container input[type="text"],
+  .create-vtuber-container textarea,
+  .create-vtuber-container input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 5px;
+  }
+  
+  .create-vtuber-container textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .create-vtuber-container input[type="file"] {
+    padding: 3px;
+    font-size: 0.9rem;
+  }
+  
+  .create-vtuber-container button {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 1rem;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .create-vtuber-container button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Mensagens de erro ou alerta */
+  .create-vtuber-container .alert {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+  }
+  

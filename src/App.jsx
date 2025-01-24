@@ -1,37 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import SearchAndFilterForm from "./SearchAndFilterForm";
 import VtuberCard from "./VtuberCard";
 import "./index.css";
-import api from "./services/api";
+import { useVtuberContext } from "./context/VtuberContext"; // Importa o hook
 
 const App = () => {
-  const [vtubers, setVtubers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { vtubers, loading, error, fetchVtubers, handleLogout } = useVtuberContext(); // Consome o contexto
   const navigate = useNavigate(); // Hook para navegação
 
-  // Função para buscar os VTubers com filtros
-  const fetchVtubers = async (filters = {}) => {
-    try {
-      setLoading(true);
-      const params = new URLSearchParams(filters).toString();
-      const url = params ? `/vtubers-filtro?${params}` : "/vtubers-filtro";
-      const response = await api.get(url);
-      setVtubers(response.data);
-    } catch (err) {
-      console.error("Erro ao buscar VTubers:", err);
-      setError("Não foi possível carregar os VTubers.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // Chama a função fetchVtubers quando o componente for montado
   useEffect(() => {
     fetchVtubers();
-  }, []);
+  }, [fetchVtubers]);
 
   const navigateToCreateVtuber = () => {
     navigate("/create-vtuber");
@@ -40,32 +23,9 @@ const App = () => {
   const navigateToUserList = () => {
     navigate("/users");
   };
+
   const navigateToEmpresaList = () => {
     navigate("/empresas");
-  };
-
-  const handleLogout = async () => {
-    try {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        throw new Error("Token não encontrado. Usuário não está autenticado.");
-      }
-
-      await api.post("/logout", null, {
-        headers: {
-          Authorization: `Bearer ${token}`, // Adiciona o token no cabeçalho
-        },
-      });
-
-      localStorage.removeItem("token"); // Remove o token do localStorage
-      navigate("/");
-    } catch (error) {
-      console.error(
-        "Erro ao realizar logout:",
-        error.response ? error.response.data : error.message
-      );
-    }
   };
 
   return (
@@ -73,12 +33,10 @@ const App = () => {
       <Header />
 
       <button onClick={handleLogout}>Logout</button>
-
       <button onClick={navigateToCreateVtuber}>Criar VTuber</button>
-
       <button onClick={navigateToUserList}>Listar Usuários</button>
-
       <button onClick={navigateToEmpresaList}>Listar Empresa</button>
+
       <SearchAndFilterForm onSearch={fetchVtubers} />
 
       <div className="vtuber-list">

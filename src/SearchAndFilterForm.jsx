@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-//import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const FormContainer = styled.div`
@@ -33,7 +32,6 @@ const Button = styled.button`
   }
 `;
 
-
 const SearchAndFilterForm = ({ onSearch }) => {
   const [nome, setNome] = useState('');
   const [empresaId, setEmpresaId] = useState('');
@@ -44,36 +42,38 @@ const SearchAndFilterForm = ({ onSearch }) => {
     const filters = {};
 
     if (nome) filters.nome = nome;
-    if (empresaId) filters.empresa_id = empresaId;
-    if (media) filters.media = media;
+    if (empresaId) filters.empresa_id = parseInt(empresaId, 10); // Garantir que o ID da empresa seja um número
+    if (media) filters.media = parseFloat(media); // Garantir que a média seja um número
 
     onSearch(filters); // Passa os filtros para a função onSearch do App.jsx
   };
 
   return (
-    <form onSubmit={handleSearch}>
-      <input
-        type="text"
-        placeholder="Nome"
-        value={nome}
-        onChange={(e) => setNome(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="ID da Empresa"
-        value={empresaId}
-        onChange={(e) => setEmpresaId(e.target.value)}
-      />
-      <input
-        type="number"
-        placeholder="Média"
-        value={media}
-        onChange={(e) => setMedia(e.target.value)}
-      />
-      <button type="submit">Buscar</button>
-    </form>
+    <FormContainer>
+      <Form onSubmit={handleSearch}>
+        <Input
+          type="text"
+          placeholder="Nome"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+        />
+        <Input
+          type="number"
+          placeholder="ID da Empresa"
+          value={empresaId}
+          onChange={(e) => setEmpresaId(e.target.value)}
+        />
+        <Input
+          type="number"
+          step="0.01" // Adiciona a possibilidade de números decimais
+          placeholder="Média"
+          value={media}
+          onChange={(e) => setMedia(e.target.value)}
+        />
+        <Button type="submit">Buscar</Button>
+      </Form>
+    </FormContainer>
   );
 };
 
 export default SearchAndFilterForm;
-

@@ -1,48 +1,41 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; 
-import api from './services/api';
-import Header from './Header';
-import Footer from './Footer';
-import './VtuberDetails.css'; // Importando o CSS
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useVtuberContext } from "./context/VtuberContext";
+import Header from "./Header";
+import Footer from "./Footer";
+import "./VtuberDetails.css"; // Importando o CSS
 
 const VtuberDetails = () => {
   const { id } = useParams();  // Pegando o ID da URL
   const navigate = useNavigate(); // Para redirecionar
+  const { fetchVtuberById, deleteVtuber, loading, error } = useVtuberContext(); // Usando o contexto
   const [vtuber, setVtuber] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
-  // Função para buscar os detalhes da VTuber
+
   useEffect(() => {
-    const fetchVtuberDetails = async () => {
+    const loadVtuberDetails = async () => {
       try {
-        setLoading(true);
-        const response = await api.get(`/vtubers/${id}`); 
-        setVtuber(response.data);
+        const fetchedVtuber = await fetchVtuberById(id); 
+        setVtuber(fetchedVtuber);
       } catch (err) {
-        setError("Erro ao carregar os detalhes do VTuber.");
-      } finally {
-        setLoading(false);
+
+        console.error("Erro ao buscar detalhes do VTuber:", err);
       }
     };
 
-    fetchVtuberDetails();
-  }, [id]);
+    loadVtuberDetails();
+  }, [id, fetchVtuberById]);
 
-  // Função para excluir a VTuber
   const handleDelete = async () => {
-    try {
-      await api.delete(`/vtubers/${id}`); // Requisição para deletar
-      alert("VTuber excluído com sucesso!");
+    if (window.confirm("Tem certeza que deseja excluir este VTuber?")) {
+      await deleteVtuber(id); 
       navigate("/app"); 
-    } catch (err) {
-      console.error("Erro ao excluir a VTuber:", err);
-      alert("Erro ao excluir a VTuber. Tente novamente.");
     }
   };
 
+ 
   if (loading) return <p>Carregando detalhes...</p>;
-  if (error) return <p style={{ color: 'red' }}>{error}</p>;
+  if (error) return <p style={{ color: "red" }}>{error}</p>; 
   if (!vtuber) return <p>VTuber não encontrado.</p>;
 
   return (
@@ -50,27 +43,27 @@ const VtuberDetails = () => {
       <Header />
       <div className="vtuber-details-container">
         <h2>{vtuber.nome}</h2>
-        <img src={vtuber.imagem} alt={vtuber.nome} />
+        <img src={vtuber.imagem} alt={vtuber.nome} className="vtuber-image" />
         <p><strong>Descrição:</strong> {vtuber.descricao}</p>
         <p><strong>Empresa:</strong> {vtuber.empresa_id}</p>
         <p><strong>Média de Notas:</strong> {vtuber.media_nota}</p>
 
-        <button 
-          onClick={() => navigate(`/update-vtuber/${id}`)} 
+        <button
+          onClick={() => navigate(`/update-vtuber/${id}`)}
           className="edit-button"
         >
           Editar VTuber
         </button>
 
-        <button 
-          onClick={handleDelete} 
+        <button
+          onClick={handleDelete}
           className="delete-button"
         >
           Excluir VTuber
         </button>
 
-        <button 
-          onClick={() => navigate(`/app`)} 
+        <button
+          onClick={() => navigate(`/app`)}
           className="back-button"
         >
           Voltar ao Início

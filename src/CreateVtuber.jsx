@@ -1,50 +1,41 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
-import api from './services/api';
+import React, { useState } from "react";
+import { useVtuberContext } from "./context/VtuberContext";
+import './CreateVtuber.css';
 
 const CreateVtuber = () => {
-  const [nome, setNome] = useState('');
-  const [descricao, setDescricao] = useState('');
-  const [empresaId, setEmpresaId] = useState('');
-  const [imagem, setImagem] = useState(null); // Imagem do tipo arquivo
-  const navigate = useNavigate(); // Hook para navegar
+  const [nome, setNome] = useState("");
+  const [descricao, setDescricao] = useState("");
+  const [empresaId, setEmpresaId] = useState("");
+  const [imagem, setImagem] = useState(null);
+  const { createVtuber } = useVtuberContext();
 
-  // Função para lidar com o upload da imagem
   const handleImagemChange = (e) => {
-    setImagem(e.target.files[0]); 
+    setImagem(e.target.files[0]);
   };
 
-  // Função para enviar os dados do formulário
   const handleCreateVtuber = async (e) => {
     e.preventDefault();
 
-    const formData = new FormData(); // Usando FormData para enviar arquivos
-    formData.append('nome', nome);
-    formData.append('descricao', descricao);
-    formData.append('empresa_id', empresaId);
-    if (imagem) {
-      formData.append('imagem', imagem); // Adiciona o arquivo da imagem
+    if (!nome || !descricao || !empresaId || !imagem) {
+      alert("Todos os campos devem ser preenchidos.");
+      return;
     }
 
-    try {
-      // Enviando a requisição POST para criar o VTuber
-      const response = await api.post('/vtubers', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data', // Necessário para enviar arquivos
-          Authorization: `Bearer ${localStorage.getItem('token')}`, // Enviando o token de autenticação
-        },
-      });
-      console.log('VTuber criado com sucesso:', response.data);
+    const formData = new FormData();
+    formData.append("nome", nome);
+    formData.append("descricao", descricao);
+    formData.append("empresa_id", empresaId);
+    formData.append("imagem", imagem);
 
-      // Redirecionando para a página "app" após a criação do VTuber
-      navigate('/app');
+    try {
+      await createVtuber(formData);
     } catch (error) {
-      console.error('Erro ao criar VTuber:', error.response ? error.response.data : error.message);
+      console.error("Erro ao criar VTuber:", error);
     }
   };
 
   return (
-    <div>
+    <div className="create-vtuber-container">
       <h2>Criar VTuber</h2>
       <form onSubmit={handleCreateVtuber}>
         <label>
@@ -78,11 +69,7 @@ const CreateVtuber = () => {
         <br />
         <label>
           Imagem:
-          <input
-            type="file"
-            onChange={handleImagemChange}
-            required
-          />
+          <input type="file" onChange={handleImagemChange} required />
         </label>
         <br />
         <button type="submit">Criar VTuber</button>

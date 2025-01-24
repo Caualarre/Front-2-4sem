@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import api from './services/api';
+import { useVtuberContext } from './context/VtuberContext'; // Importando o contexto
 import Header from './Header';
 import Footer from './Footer';
 import './UpdateVtuber.css'; // Importando o CSS
@@ -15,14 +15,16 @@ const UpdateVtuber = () => {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(true);
 
+  const { fetchVtuberById, updateVtuber } = useVtuberContext(); 
+
   useEffect(() => {
     const fetchVtuberDetails = async () => {
       try {
-        const response = await api.get(`/vtubers/${id}`);
-        setNome(response.data.nome);
-        setDescricao(response.data.descricao);
-        if (response.data.imagem) {
-          setImagemPreview(response.data.imagem); 
+        const response = await fetchVtuberById(id); 
+        setNome(response.nome);
+        setDescricao(response.descricao);
+        if (response.imagem) {
+          setImagemPreview(response.imagem); 
         }
       } catch (error) {
         console.error('Erro ao carregar VTuber:', error);
@@ -33,7 +35,7 @@ const UpdateVtuber = () => {
     };
 
     fetchVtuberDetails();
-  }, [id]);
+  }, [id, fetchVtuberById]);
 
   const handleImagemChange = (e) => {
     const file = e.target.files[0];
@@ -50,16 +52,10 @@ const UpdateVtuber = () => {
     if (imagem) {
       formData.append('imagem', imagem); 
     }
-    formData.append('_method', 'put'); 
 
     try {
-      const response = await api.post(`/vtubers/${id}`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      await updateVtuber(id, formData); 
       setMessage('VTuber atualizado com sucesso!');
-      console.log('Resposta do servidor:', response.data);
       navigate(`/vtubers/${id}`);
     } catch (error) {
       setMessage('Erro ao atualizar VTuber.');

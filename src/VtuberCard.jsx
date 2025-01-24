@@ -19,14 +19,18 @@ const Image = styled.img`
   border-radius: 8px;
 `;
 
-const VtuberCard = ({ vtuber }) => (
-  <Card>
-    <Image src={vtuber.imagem} alt={vtuber.nome} />
-    <h3>{vtuber.nome}</h3>
-    <p>{vtuber.descricao}</p>
-    <p>Empresa: {vtuber.empresa_id}</p>
-    <p>Média: {vtuber.media_nota}</p>
-  </Card>
-);
+const VtuberCard = ({ vtuber }) => {
+  return (
+    <Card>
+      <Image src={vtuber.imagem} alt={vtuber.nome} />
+      <h3>{vtuber.nome}</h3>
+      <p>{vtuber.descricao}</p>
+      <p>Empresa: {vtuber.empresa_id || "Desconhecida"}</p> 
+      <p>
+        Média: {vtuber.media_nota ? vtuber.media_nota : "Não avaliado"} {/* Exibe a média de notas, caso exista */}
+      </p>
+    </Card>
+  );
+};
 
 export default VtuberCard;

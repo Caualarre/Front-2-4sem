@@ -4,7 +4,7 @@ import axios from 'axios';
 // Configuração inicial do Axios
 const api = axios.create({
   baseURL: 'http://localhost:8000/api', // URL base do back-end Laravel
-  timeout: 10000, // Tempo limite para requisições
+  timeout: 30000, // Tempo limite para requisições
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
