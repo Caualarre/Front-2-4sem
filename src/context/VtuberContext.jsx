@@ -18,21 +18,21 @@ export const VtuberProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const fetchVtubers = useCallback(async (filters = {}) => {
+  const fetchVtubers = async (filters = {}) => {
     setLoading(true);
     try {
-      const params = new URLSearchParams(filters).toString();
-      const url = params ? `/vtubers-filtro?${params}` : "/vtubers-filtro";
-      const response = await api.get(url);
-      setVtubers(response.data);
-      setError(null); // Limpa qualquer erro anterior
+    const params = new URLSearchParams(filters).toString();
+    const url = params ? `/vtubers-filtro?${params}` : "/vtubers-filtro";
+    const response = await api.get(url);
+    setVtubers(response.data);
+    setError(null); // Limpa qualquer erro anterior
     } catch (err) {
-      console.error("Erro ao buscar VTubers:", err);
-      setError("Não foi possível carregar os VTubers.");
+    console.error("Erro ao buscar VTubers:", err);
+    setError("Não foi possível carregar os VTubers.");
     } finally {
-      setLoading(false);
+    setLoading(false);
     }
-  }, []);
+    } ;
 
   const fetchVtuberById = useCallback(async (id) => {
     setLoading(true);
@@ -114,9 +114,9 @@ export const VtuberProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    fetchVtubers();
-  }, [fetchVtubers]);
+  //useEffect(() => {
+  //  fetchVtubers();
+  //}, [fetchVtubers]);
 
   return (
     <VtuberContext.Provider
@@ -136,3 +136,4 @@ export const VtuberProvider = ({ children }) => {
     </VtuberContext.Provider>
   );
 };
+

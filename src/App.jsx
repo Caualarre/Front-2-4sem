@@ -14,7 +14,7 @@ const App = () => {
   // Chama a função fetchVtubers quando o componente for montado
   useEffect(() => {
     fetchVtubers();
-  }, [fetchVtubers]);
+  }, []);
 
   const navigateToCreateVtuber = () => {
     navigate("/create-vtuber");
